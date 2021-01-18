@@ -6,9 +6,10 @@ from prettytable import PrettyTable
 
 __description__ = "Interact with or display current beacons"
 __author__ = "@_batsec_"
+__type__ = "beacon"
 
 def _list_beacons(shad0w):
-    # i have gcse english, i gonna use it
+    # I have gcse english, I gonna use it
     if shad0w.beacon_count == 1:
         shad0w.debug.log(f"{shad0w.beacon_count} active beacon\n", log=True)
     else:

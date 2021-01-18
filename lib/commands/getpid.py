@@ -1,10 +1,12 @@
 #
 # Get the current pid info
 #
+
 import json
 
-__description__ = "Get the current process info"
+__description__ = "Show current process info"
 __author__ = "@_batsec_"
+__type__ = "process"
 
 EXEC_ID    = 0x4000
 OPCODE_PID = 0x7000
@@ -18,7 +20,7 @@ def main(shad0w, args):
 
     # check we actually have a beacon
     if shad0w.current_beacon is None:
-        shad0w.debug.error("ERROR: No active beacon")
+        shad0w.debug.error("ERROR: No active beacon.")
         return
 
     # make the json

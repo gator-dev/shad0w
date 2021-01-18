@@ -6,8 +6,9 @@ import argparse
 
 from lib import shellcode
 
-__description__ = "A tool that allows for the enumeration of open file handles and the copying of locked files"
+__description__ = "Allows for the enumeration of open file handles and the copying of locked files"
 __author__ = "@_batsec_, @harmj0y"
+__type__ = "module"
 
 # identify the task as shellcode execute
 USERCD_EXEC_ID = 0x3000
@@ -15,7 +16,7 @@ USERCD_EXEC_ID = 0x3000
 # location of lockless binary
 LOCKLESS_BIN = "/root/shad0w/bin/SharpCollection/NetFramework_4.5_x86/LockLess.exe"
 
-# little hack but lets us pass the args to donut
+# little hack but lets us pass the args to Donut
 class DummyClass(object):
     def __init__(self):
         pass
@@ -29,12 +30,12 @@ def main(shad0w, args):
 
     # check we actually have a beacon
     if shad0w.current_beacon is None:
-        shad0w.debug.log("ERROR: No active beacon", log=True)
+        shad0w.debug.log("ERROR: No active beacon.", log=True)
         return
 
     lockless_args = ' '.join(args[1:])
 
-    # kinda a hack to make sure we intergrate nice with the shellcode generator
+    # kind of a hack to make sure we integrate nice with the shellcode generator
     args = DummyClass()
 
     if len(lockless_args) != 0:

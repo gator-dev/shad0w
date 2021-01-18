@@ -4,7 +4,8 @@
 
 import argparse
 
-__description__ = "Set the value of variables"
+__description__ = "Set the value of a variable"
+__type__ = "beacon"
 
 ERROR = False
 error_list = ""
@@ -44,7 +45,7 @@ set -v MsfStageSize -d 14
     parse.add_argument("-v", "--variable", help="Variable name")
     parse.add_argument("-d", "--data", help="Data to store in the variable")
 
-    # make sure we dont die from weird args
+    # make sure we don't die from weird args
     try:
         args = parse.parse_args(args[1:])
     except:

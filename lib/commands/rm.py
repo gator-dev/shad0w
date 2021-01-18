@@ -1,12 +1,13 @@
-# 
+#
 # Delete something
-# 
+#
 
 import json
 import argparse
 
-__description__ = "Delete a file on the target"
+__description__ = "Delete a file on a target"
 __author__ = "@_batsec_"
+__type__ = "file system"
 
 EXEC_ID   = 0x4000
 OPCODE_RM = 0x4000
@@ -36,7 +37,7 @@ def main(shad0w, args):
     
     # check we actually have a beacon
     if shad0w.current_beacon is None:
-        shad0w.debug.error("ERROR: No active beacon")
+        shad0w.debug.error("ERROR: No active beacon.")
         return
 
     # usage examples
@@ -57,7 +58,7 @@ rm "C:\\Users\\thejoker\\deleteme.txt"
     # setup the args
     parse.add_argument("name", nargs='*', help="Name of what you want to delete")
 
-    # make sure we dont die from weird args
+    # make sure we don't die from weird args
     try:
         args = parse.parse_args(args[1:])
     except:

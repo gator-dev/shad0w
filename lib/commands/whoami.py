@@ -1,5 +1,5 @@
 # 
-# Get infomation about the current user
+# Get information about the current user
 #
 
 import json
@@ -8,8 +8,9 @@ import argparse
 
 from lib import shellcode
 
-__description__ = "Get infomation about the current user the beacon is running as"
+__description__ = "Show info about the current user"
 __author__ = "@_batsec_"
+__type__ = "enumeration"
 
 # using work around for stager bug
 # EXEC_ID       = 0x4000
@@ -59,7 +60,7 @@ async def main(shad0w, args):
     
     # check we actually have a beacon
     if shad0w.current_beacon is None:
-        shad0w.debug.error("ERROR: No active beacon")
+        shad0w.debug.error("ERROR: No active beacon.")
         return
 
     # usage examples
@@ -82,11 +83,11 @@ whoami --groups
     parse.error = error
 
     # setup the args
-    parse.add_argument("-a", "--all", action='store_true', help="Show all avalible infomation")
-    parse.add_argument("-p", "--privs", action='store_true', help="Show all privilages")
+    parse.add_argument("-a", "--all", action='store_true', help="Show all available information")
+    parse.add_argument("-p", "--privs", action='store_true', help="Show all privileges")
     parse.add_argument("-g", "--groups", action='store_true', help="Show all groups the user is a member of")
 
-    # make sure we dont die from weird args
+    # make sure we don't die from weird args
     try:
         args = parse.parse_args(args[1:])
     except:
