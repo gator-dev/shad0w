@@ -82,7 +82,7 @@ unsigned char *base64_decode(const char *data, size_t input_length, size_t *outp
         if (j < *output_length) decoded_data[j++] = (triple >> 1 * 8) & 0xFF;
         if (j < *output_length) decoded_data[j++] = (triple >> 0 * 8) & 0xFF;
     }
- 
+    decoded_data[*output_length] = '\0';
     return decoded_data;
 }
 
@@ -163,7 +163,7 @@ void main()
         LPSTR pszOutBuffer;
 
         BufferSize = 1000;
-        ResBuffer  = malloc(BufferSize);
+        ResBuffer  = calloc(BufferSize, sizeof(char)); //Must zeroize buffer first 
 
         do
         {
@@ -213,7 +213,7 @@ void main()
                     ResBuffer = realloc(ResBuffer, (strlen(ResBuffer) + strlen(pszOutBuffer)));
                 }
 
-                asprintf(&ResBuffer, "%s%s", ResBuffer, pszOutBuffer);
+                asprintf(&ResBuffer, "%s%s", ResBuffer, pszOutBuffer); //ResBuffer must be empty for the first iteration
             }
 
             // free the memory allocated to the buffer.
@@ -249,8 +249,9 @@ void main()
         write_ptr = fopen(Path, "wb");
     }
 
-    fwrite(b64_out, b64_len, 1, write_ptr);
-
+    //fwrite(b64_out, b64_len, 1, write_ptr);
+    fwrite(b64_out, sizeof(char), b64_len, write_ptr);
+    fclose(write_ptr);
     printf("\033[1;32m[+]\033[0m File Uploaded.\n");
 
     // free the buffers
