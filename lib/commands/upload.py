@@ -5,6 +5,7 @@
 import os
 import base64
 import argparse
+from pathlib import Path
 
 from lib import buildtools
 
@@ -62,6 +63,7 @@ def main(shad0w, args):
 Examples:
 
 upload -f fake_secret_plans.txt -d C:\\Users\\thejoker\\Desktop\\batmans_secret_plans.txt
+upload -f "/dir name/fake space plans.txt" -d "C:\\Program Files\\batmans secret plans.txt"
 """
 
     # init the parser
@@ -74,24 +76,27 @@ upload -f fake_secret_plans.txt -d C:\\Users\\thejoker\\Desktop\\batmans_secret_
     parse.error = error
 
     # setup the args
-    parse.add_argument("-f", "--file", required=True, help="Name of the file you want to upload")
+    parse.add_argument("-f", "--file", nargs="*", required=True, help="Name of the file you want to upload")
     parse.add_argument("-d", "--destination", nargs="*", help="Destination where the uploaded file should be stored")
 
     # make sure we don't die from weird args
     try:
         args = parse.parse_args(args[1:])
+        args.file = Path(' '.join(args.file).replace('"', '')) #handle spaces & quotes in filepath
     except:
         pass
-    
-    # we need a file to read so if we don't then fail
-    if len(args.file) == 0:
+
+    # Validate there is a file to upload and fail if not
+    try:
+        args.file.exists()
+    except:
         print(error_list) 
         parse.print_help()
         return
 
     # make the destination file name
     if args.destination == None:
-        args.destination = os.path.basename(args.file)
+        args.destination = args.file.name
         abs_path = "FALSE"
 
     # save the current dir
@@ -106,6 +111,7 @@ upload -f fake_secret_plans.txt -d C:\\Users\\thejoker\\Desktop\\batmans_secret_
             FILE_DATA = file.read()
     except:
         shad0w.debug.error(f"File {args.file} does not exist")
+        return
 
     # make this variable global so the call back can access it
     FILE_TO_UPLOAD = args.file
@@ -126,7 +132,7 @@ upload -f fake_secret_plans.txt -d C:\\Users\\thejoker\\Desktop\\batmans_secret_
 #define SESSION_ID "%s"
 #define DO_CALLBACK 0x4000
 #define FILENAME "%s"
-#define ABS_PATH %s""" % (shad0w.endpoint, shad0w.addr[1], shad0w.current_beacon, ''.join(args.destination), abs_path)
+#define ABS_PATH %s""" % (shad0w.endpoint, shad0w.addr[1], shad0w.current_beacon, ' '.join(args.destination).replace('"', ''), abs_path)
 
     buildtools.update_settings_file(None, custom_template=template, custom_path="/root/shad0w/modules/windows/upload/build/settings.h")
 
