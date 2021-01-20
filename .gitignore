@@ -1,3 +1,21 @@
+# Exclude contents of the build directories and the final binary they create
+# Beware: for the 'empty' directory itself to be preserved you must have the .keep file in it
 beacon/build/*
-*.o
+beacon/beacon.exe
+modules/**/build/*
+modules/**/module.exe
+modules/**/module.dll
+modules/**/psh.exe
+
+# Exclude artifacts generated during shad0w execution
+.bridge/*
+
+# Exclude the python compiled code generated during shad0w execution
 *.pyc
+
+# Exclude the hist file generated during shad0w execution
+.shad0w_history
+
+# Track the manually added .keep file used to preserve 'empty' build directories
+# In the .gitignore this must be placed below the excluded 'empty' directories
+!.keep
